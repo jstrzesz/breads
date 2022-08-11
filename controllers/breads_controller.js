@@ -8,12 +8,17 @@ breads.get('/', (req, res) => {
     breads: Bread,
     title: 'Index Page',
   });
-  // res.send(Bread);
 });
 
 // SHOW
 breads.get('/:arrayIndex', (req, res) => {
-  res.send(Bread[req.params.arrayIndex]);
+  if (Bread[req.params.arrayIndex]) {
+    res.render('Show', {
+      bread: Bread[req.params.arrayIndex]
+    });
+  } else {
+    res.render('Error');
+  }
 });
 
 module.exports = breads;
