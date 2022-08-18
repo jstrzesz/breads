@@ -1,9 +1,15 @@
 const express = require('express');
 const breads = express.Router();
 const Bread = require('../models/breads.js');
+const seedValues = require('../database/seed');
 
 // INDEX
 breads.get('/', (req, res) => {
+  // Bread.getRachel()
+  //   .then(foundRachel => {
+  //     console.log(foundRachel);
+  //   })
+  //   .catch(err => console.log(err));
   Bread.find()
     .then(foundBreads => {
       res.render('Index', {
@@ -16,6 +22,18 @@ breads.get('/', (req, res) => {
       res.render('Error');
     });
 });
+
+// SEED
+breads.get('/data/seed', (req, res) => {
+  Bread.insertMany(seedValues)
+    .then(seededBreads => {
+      res.redirect('/breads');
+    })
+    .catch(err => {
+      console.log(err);
+      res.render('Error');
+    });
+})
 
 // NEW
 breads.get('/new', (req, res) => {
@@ -50,28 +68,38 @@ breads.post('/', (req, res) => {
 });
 
 // EDIT
-breads.get('/:arrayIndex/edit', (req, res) => {
-  res.render('Edit', {
-    bread: Bread[req.params.arrayIndex],
-    index: req.params.arrayIndex,
-  });
+breads.get('/:id/edit', (req, res) => {
+  Bread.findById(req.params.id)
+    .then(foundBread => {
+      res.render('Edit', {
+        bread: foundBread,
+      });
+    })
+    .catch(err => console.log(err));
 });
 
 // UPDATE
-breads.put('/:arrayIndex', (req, res) => {
+breads.put('/:id', (req, res) => {
+  console.log(req.params.id, req.body, 'line 62');
   if (req.body.hasGluten === 'on') {
     req.body.hasGluten = 'true';
   } else {
     req.body.hasGluten = 'false';
   }
-  Bread[req.params.arrayIndex] = req.body;
-  res.redirect(`/breads/${req.params.arrayIndex}`);
+  Bread.findByIdAndUpdate(req.params.id, req.body, { new: true })
+    .then(updatedBread => {
+      res.redirect(`/breads/${req.params.id}`);
+    })
+    .catch(err => console.log(err));
 });
 
 // DELETE
-breads.delete('/:arrayIndex', (req, res) => {
-  Bread.splice(req.params.arrayIndex, 1);
-  res.status(303).redirect('/breads');
-})
+breads.delete('/:id', (req, res) => {
+  Bread.findByIdAndDelete(req.params.id)
+    .then(deletedBread => {
+      res.status(303).redirect('/breads');
+    })
+    .catch(err => console.log(err));
+});
 
 module.exports = breads;

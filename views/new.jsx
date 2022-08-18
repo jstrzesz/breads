@@ -22,10 +22,19 @@ const New = () => {
         <label htmlFor='hasGluten'>Has Gluten?</label>
         <input
           type='checkbox'
-          hame='hasGluten'
+          name='hasGluten'
           id='hasGluten'
           defaultChecked
         />
+        <label htmlFor='baker'>Baker</label>
+        <select name="baker" id="baker">
+          <option value="Rachel">Rachel</option>
+          <option value="Monica">Monica</option>
+          <option value="Phoebe">Phoebe</option>
+          <option value="Joey">Joey</option>
+          <option value="Chandler">Chandler</option>
+          <option value="Ross">Ross</option>
+        </select>
         <br />
         <input type='submit' />
       </form>
