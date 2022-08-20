@@ -1,21 +1,22 @@
+// dependencies
 const express = require('express');
 const breads = express.Router();
 const Bread = require('../models/breads.js');
+const Baker = require('../models/baker.js');
 const seedValues = require('../database/seed');
 
 // INDEX
 breads.get('/', (req, res) => {
-  // Bread.getRachel()
-  //   .then(foundRachel => {
-  //     console.log(foundRachel);
-  //   })
-  //   .catch(err => console.log(err));
-  Bread.find()
-    .then(foundBreads => {
-      res.render('Index', {
-        breads: foundBreads,
-        title: 'Index Page',
-      });
+  Baker.find()
+    .then(foundBakers => {
+      Bread.find()
+        .then(foundBreads => {
+          res.render('Index', {
+            breads: foundBreads,
+            bakers: foundBakers,
+            title: 'Index Page',
+          });
+        })
     })
     .catch(err => {
       console.log(err);
@@ -37,13 +38,19 @@ breads.get('/data/seed', (req, res) => {
 
 // NEW
 breads.get('/new', (req, res) => {
-  res.render('new');
+  Baker.find()
+    .then(foundBakers => {
+      res.render('new', { bakers: foundBakers });
+    })
+    .catch(err => console.log(err));
 });
 
 // SHOW
 breads.get('/:id', (req, res) => {
   Bread.findById(req.params.id)
+    .populate('baker')
     .then(foundBread => {
+      console.log(foundBread);
       res.render('Show', {
         bread: foundBread,
       });
@@ -69,11 +76,16 @@ breads.post('/', (req, res) => {
 
 // EDIT
 breads.get('/:id/edit', (req, res) => {
-  Bread.findById(req.params.id)
-    .then(foundBread => {
-      res.render('Edit', {
-        bread: foundBread,
-      });
+  Baker.find()
+    .then(foundBakers => {
+      Bread.findById(req.params.id)
+        .then(foundBread => {
+          res.render('Edit', {
+            bread: foundBread,
+            bakers: foundBakers,
+          });
+        })
+        .catch(err => console.log(err));
     })
     .catch(err => console.log(err));
 });
