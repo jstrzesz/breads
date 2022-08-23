@@ -6,22 +6,19 @@ const Baker = require('../models/baker.js');
 const seedValues = require('../database/seed');
 
 // INDEX
-breads.get('/', (req, res) => {
-  Baker.find()
-    .then(foundBakers => {
-      Bread.find()
-        .then(foundBreads => {
-          res.render('Index', {
-            breads: foundBreads,
-            bakers: foundBakers,
-            title: 'Index Page',
-          });
-        })
-    })
-    .catch(err => {
-      console.log(err);
-      res.render('Error');
+breads.get('/', async (req, res) => {
+  try {
+    const foundBakers = await Baker.find().lean();
+    const foundBreads = await Bread.find().lean();
+    res.render('Index', {
+      breads: foundBreads,
+      bakers: foundBakers,
+      title: 'Index Page',
     });
+  } catch (e) {
+    console.error(e);
+    res.render('Error');
+  }
 });
 
 // SEED
@@ -50,7 +47,6 @@ breads.get('/:id', (req, res) => {
   Bread.findById(req.params.id)
     .populate('baker')
     .then(foundBread => {
-      console.log(foundBread);
       res.render('Show', {
         bread: foundBread,
       });

@@ -2,6 +2,7 @@
 const mongoose = require('mongoose');
 // create shorthand for the Schema constructor
 const { Schema } = mongoose;
+const Baker = require('./baker');
 
 const breadSchema = new Schema({
   name: { type: String, required: true },

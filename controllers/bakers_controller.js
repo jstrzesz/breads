@@ -9,7 +9,6 @@ bakerRouter.get('/', (req, res) => {
   Baker.find()
     .populate('breads')
     .then(foundBakers => {
-      console.log(foundBakers, 'line 11');
       res.send(foundBakers);
     })
     .catch(err => console.log(err));
@@ -18,14 +17,25 @@ bakerRouter.get('/', (req, res) => {
 // Show:
 bakerRouter.get('/:id', (req, res) => {
   Baker.findById(req.params.id)
-    .populate('breads')
+    .populate({
+      path: 'breads',
+      options: { limit: 3 }
+    })
     .then(foundBaker => {
-      console.log(foundBaker, 'line 23');
       res.render('bakerShow', {
         baker: foundBaker
       });
     })
     .catch(err => console.log(err));
+});
+
+// Delete:
+bakerRouter.delete('/:id', (req, res) => {
+  Baker.findByIdAndDelete(req.params.id)
+    .then(deletedBaker => {
+      res.status(303).redirect('/breads');
+    })
+    .catch(err => console.error(err));
 });
 
 bakerRouter.get('/data/seed', (req, res) => {
