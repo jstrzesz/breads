@@ -1,5 +1,6 @@
 const React = require('react');
-const Default = require('./layouts/default');
+const Default = require('./layouts/Default');
+
 
 const Edit = ({ bread, bakers }) => {
   return (
