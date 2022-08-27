@@ -16,7 +16,7 @@ app.set('views', `${__dirname}/views/`);
 app.set('view engine', 'jsx');
 app.engine('jsx', require('express-react-views').createEngine());
 
-// Database
+// Database //
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('connected'))
   .catch(err => console.log(err));
