@@ -1,6 +1,5 @@
 const express = require('express');
 const methodOverride = require('method-override');
-const cors = require('cors');
 const mongoose = require('mongoose');
 
 // CONFIGURATION
@@ -13,13 +12,12 @@ const app = express();
 app.use(methodOverride('_method'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
-app.use(cors({ origin: 'glacial-hamlet-14955.herokuapp.com/', optionsSuccessStatus: 200 }));
 app.set('views', `${__dirname}/views`);
 app.set('view engine', 'jsx');
 app.engine('jsx', require('express-react-views').createEngine());
 
 // Database
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true },
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true },
   () => { console.log('connected to mongodb' + ' ' + MONGODB_URI) });
 
 // ROUTES
