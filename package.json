@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/jstrzesz/breads#readme",
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "express-react-views": "^0.11.0",
