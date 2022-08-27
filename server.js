@@ -18,7 +18,7 @@ app.engine('jsx', require('express-react-views').createEngine());
 
 // Database
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true },
-  () => { console.log('connected to mongodb') });
+  () => { console.log('connected to mongodb' + ' ' + MONGODB_URI) });
 
 // ROUTES
 app.get('/', (req, res) => {
@@ -39,6 +39,6 @@ app.get('*', (req, res) => {
 });
 //
 // LISTEN
-app.listen(PORT, () => {
-  console.log(`listening on PORT: ${PORT}`);
+app.listen(process.env.PORT, () => {
+  console.log(`listening on PORT: ${process.env.PORT}`);
 });
