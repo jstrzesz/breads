@@ -17,8 +17,9 @@ app.set('view engine', 'jsx');
 app.engine('jsx', require('express-react-views').createEngine());
 
 // Database
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true },
-  () => { console.log('connected to mongodb' + ' ' + MONGODB_URI) });
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('connected'))
+  .catch(err => console.log(err));
 
 // ROUTES
 app.get('/', (req, res) => {
