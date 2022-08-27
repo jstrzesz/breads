@@ -10,7 +10,7 @@ breads.get('/', async (req, res) => {
   try {
     const foundBakers = await Baker.find().lean();
     const foundBreads = await Bread.find().lean();
-    res.render('Index', {
+    res.render('Index.jsx', {
       breads: foundBreads,
       bakers: foundBakers,
       title: 'Index Page',
