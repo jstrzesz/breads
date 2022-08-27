@@ -1,6 +1,5 @@
 const React = require('React');
-const Default = require('./layouts/Default');
-
+const Default = require('./layouts/default');
 
 const Error = () => {
   return (

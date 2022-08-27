@@ -10,14 +10,14 @@ breads.get('/', async (req, res) => {
   try {
     const foundBakers = await Baker.find().lean();
     const foundBreads = await Bread.find().lean();
-    res.render('Index.jsx', {
+    res.render('index.jsx', {
       breads: foundBreads,
       bakers: foundBakers,
       title: 'Index Page',
     });
   } catch (e) {
     console.error(e);
-    res.render('Error');
+    res.render('error.jsx');
   }
 });
 
@@ -29,7 +29,7 @@ breads.get('/data/seed', (req, res) => {
     })
     .catch(err => {
       console.log(err);
-      res.render('Error');
+      res.render('error.jsx');
     });
 })
 
@@ -37,7 +37,7 @@ breads.get('/data/seed', (req, res) => {
 breads.get('/new', (req, res) => {
   Baker.find()
     .then(foundBakers => {
-      res.render('new', { bakers: foundBakers });
+      res.render('new.jsx', { bakers: foundBakers });
     })
     .catch(err => console.log(err));
 });
@@ -47,12 +47,12 @@ breads.get('/:id', (req, res) => {
   Bread.findById(req.params.id)
     .populate('baker')
     .then(foundBread => {
-      res.render('Show', {
+      res.render('show.jsx', {
         bread: foundBread,
       });
     })
     .catch(err => {
-      res.render('Error');
+      res.render('error.jsx');
     });
 });
 
@@ -76,7 +76,7 @@ breads.get('/:id/edit', (req, res) => {
     .then(foundBakers => {
       Bread.findById(req.params.id)
         .then(foundBread => {
-          res.render('Edit', {
+          res.render('edit.jsx', {
             bread: foundBread,
             bakers: foundBakers,
           });

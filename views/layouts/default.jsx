@@ -1,6 +1,5 @@
 const React = require('react');
 
-
 const Default = ({ children, title }) => {
   return (
     <html>
